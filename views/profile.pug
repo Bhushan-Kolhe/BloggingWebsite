@@ -63,13 +63,13 @@ html(lang='en')
             .new-post-area
               h4 New Post
               .separator
-              form.new-post#new-post-form(action='index.html', method='post')
+              form.new-post#new-post-form(method='POST',action='/users/New-Post', encType="multipart/form-data")
                 label.label-new-post-title(for='Title')
                   input.new-post-title#new-post-title(type='text', name='Title', placeholder='Title...')
-                textarea.new-post-content#new-post-content(placeholder='Content...')
+                textarea.new-post-content#new-post-content(placeholder='Content...', name='Content')
                 br
                 label.btn.btn-outline-primary.custom-file-upload
-                  input(type='file')
+                  input(name='Image', type='file')
                   |                 Add Image
                 input.btn.btn-outline-danger.new-post-btn(type='submit', value='Post')
             .card.mb-3

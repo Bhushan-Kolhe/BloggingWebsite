@@ -131,11 +131,11 @@ $(document).ready(function () {
     if (value == "") {
       $(this).removeClass("new-post-content-valid");
       $(this).addClass("new-post-content-invalid");
-      var newPostContent =false;
+      newPostContent =false;
     } else {
       $(this).removeClass("new-post-content-invalid");
       $(this).addClass("new-post-content-valid");
-      var newPostContent =true;
+      newPostContent =true;
     }
   });
 
@@ -151,11 +151,11 @@ $(document).ready(function () {
     if (value == "") {
       $(this).removeClass("new-post-content-valid");
       $(this).addClass("new-post-content-invalid");
-      var newPostContent =false;
+      newPostContent =false;
     } else {
       $(this).removeClass("new-post-content-invalid");
       $(this).addClass("new-post-content-valid");
-      var newPostContent =true;
+      newPostContent =true;
     }
   });
 
@@ -182,11 +182,7 @@ $(document).ready(function () {
     if (value == "") {
       $(this).removeClass("new-post-content-valid");
       $(this).addClass("new-post-content-invalid");
-      var feedbackEmail =false;
-    } else {
-      $(this).removeClass("new-post-content-invalid");
-      $(this).addClass("new-post-content-valid");
-      var feedbackEmail =true;
+      feedbackEmail =false;
     }
   });
 

@@ -2,9 +2,16 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const fileUpload = require('express-fileupload');
 
 //Get Users Model
 let User = require('../models/Users');
+
+//Get Post model
+let Post = require('../models/Posts');
+
+// default options
+router.use(fileUpload());
 
 //Register form
 router.get('/register', function (req, res) {
@@ -20,46 +27,108 @@ router.post('/register', function (req, res) {
   const Password2 = req.body.Password2;
   const Birthday = req.body.bday;
   const Gender = req.body.gender;
+  User.findOne({ Email: Email }, function (err, user) {
+    if (err) return console.error(err);
+    if (user) {
+      res.render('signup', {
+        error: 'Email is already registered.'
+      });
+    } else {
+      req.checkBody('FirstName', 'First Name is required').notEmpty();
+      req.checkBody('LastName', 'Last Name is required').notEmpty();
+      req.checkBody('Email', 'Email is required').notEmpty();
+      req.checkBody('Email', 'Email is not valid').isEmail();
+      req.checkBody('Password', 'Password is required').notEmpty();
+      req.checkBody('Password2', 'Passwords do not match').equals(req.body.Password);
 
-  req.checkBody('FirstName', 'First Name is required').notEmpty();
-  req.checkBody('LastName', 'Last Name is required').notEmpty();
-  req.checkBody('Email', 'Email is required').notEmpty();
-  req.checkBody('Email', 'Email is not valid').isEmail();
-  req.checkBody('Password', 'Password is required').notEmpty();
-  req.checkBody('Password2', 'Passwords do not match').equals(req.body.Password);
+      let errors = req.validationErrors();
+      if (errors) {
+        res.render('signup', {
+          errors: errors
+        });
+      } else {
+        let newUser = new User({
+          FirstName: FirstName,
+          LastName: LastName,
+          Email: Email,
+          Password: Password,
+          BirthDate: Birthday,
+          Gender: Gender
+        });
+        bcrypt.genSalt(10, function (err, salt) {
+          bcrypt.hash(newUser.Password, salt, function (err, hash) {
+            if(err){
+              console.log(err);
+            }
+            newUser.Password = hash;
+            newUser.save(function (err) {
+              if (err) {
+                console.log(err);
+                return;
+              } else {
+                res.redirect('/');
+              }
+            });
+          });
+        });
+      }
+    }
+  });
+});
+
+//New Post
+router.post('/New-Post', function (req, res, next) {
+  const Title = req.body.Title;
+  const Content = req.body.Content;
+  let File;
+  let Image;
+  let newPost;
+  let isFile = false;
+  if (req.files) {
+    File = req.files.Image;
+    Image = File.name;
+    isFile = true;
+  }
+  req.checkBody('Title', 'Title is required').notEmpty();
+  req.checkBody('Content', 'Content is required').notEmpty();
 
   let errors = req.validationErrors();
+
   if (errors) {
-    res.render('signup', {
+    res.render('profile', {
       errors: errors
     });
   } else {
-    let newUser = new User({
-      FirstName: FirstName,
-      LastName: LastName,
-      Email: Email,
-      Password: Password,
-      BirthDate: Birthday,
-      Gender: Gender
-    });
-    bcrypt.genSalt(10, function (err, salt) {
-      bcrypt.hash(newUser.Password, salt, function (err, hash) {
-        if(err){
-          console.log(err);
-        }
-        newUser.Password = hash;
-        newUser.save(function (err) {
-          if(err){
-            console.log(err);
-            return;
-          } else {
-            res.redirect('/');
-          }
-        });
+    if (isFile) {
+      File.mv('./public/images/' + Image, function (err) {
+        if (err)
+          return res.status(500).send(err);
       });
+      newPost = new Post({
+        Title: Title,
+        Content: Content,
+        Image: Image,
+        UserId: 'z'
+      });
+    } else {
+      newPost = new Post({
+        Title: Title,
+        Content: Content,
+        Image: 'no-image',
+        UserId: 'z'
+      });
+    }
+    newPost.save(function (err) {
+      console.log("asd");
+      if(err){
+        console.log(err);
+        return;
+      } else {
+        res.redirect('/');
+      }
     });
   }
-})
+});
 
 //Login process
 router.post('/login', function (req, res, next) {
