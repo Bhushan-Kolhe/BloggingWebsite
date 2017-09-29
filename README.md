@@ -1,4 +1,4 @@
-#Hot to Use
+# How to Use
 
 Download and Install node.js from https://nodejs.org/en/
 
