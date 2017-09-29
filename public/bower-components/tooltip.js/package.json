@@ -1,0 +1,60 @@
+{
+  "_from": "tooltip.js",
+  "_id": "tooltip.js@1.1.5",
+  "_inBundle": false,
+  "_integrity": "sha1-dAcDx8ClL/cr064+eMEqhgmZenE=",
+  "_location": "/tooltip.js",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "tooltip.js",
+    "name": "tooltip.js",
+    "escapedName": "tooltip.js",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/tooltip.js/-/tooltip.js-1.1.5.tgz",
+  "_shasum": "740703c7c0a52ff72bd3ae3e78c12a8609997a71",
+  "_spec": "tooltip.js",
+  "_where": "C:\\Users\\HP\\Desktop\\\\Web\\web2",
+  "bugs": {
+    "url": "https://github.com/FezVrasta/popper.js/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "popper.js": "^1.0.2"
+  },
+  "deprecated": false,
+  "description": "A kickass library to create tooltips, based on Popper.js",
+  "devDependencies": {
+    "@popperjs/bundle": "^1.0.0",
+    "@popperjs/eslint-config-popper": "^1.0.0",
+    "@popperjs/test": "^1.0.0",
+    "@popperjs/test-utils": "^1.0.0",
+    "eslint": "^4.1.1",
+    "eslint-plugin-jasmine": "^2.6.2"
+  },
+  "homepage": "https://github.com/FezVrasta/popper.js#readme",
+  "main": "./dist/umd/tooltip.js",
+  "module": "./dist/esm/tooltip.js",
+  "name": "tooltip.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FezVrasta/popper.js.git"
+  },
+  "scripts": {
+    "build": "node bundle.js",
+    "coverage": "NODE_ENV=coverage npm run test",
+    "lint": "eslint .",
+    "prepublish": "npm run build",
+    "pretest": "npm run lint",
+    "test": "popper-karma"
+  },
+  "version": "1.1.5"
+}

@@ -1,0 +1,150 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title BLOG-IT
+    link(rel='stylesheet', href='bower-components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='css/font-awesome.min.css')
+    link(rel='stylesheet', href='css/styles.css')
+  body
+    nav.navbar.navbar-expand.navbar-light
+      a.navbar-brand(href='#') BLOG-IT
+      div
+        ul#my-nav-list.navbar-nav
+          form.form-inline.my-lg-0.my-nav-item
+            .box
+              .container-1
+                span.icon
+                  i.fa.fa-search
+                input#search(type='search', placeholder='Search...')
+          li.nav-item.active.my-nav-item
+            button.btn.btn-sm.btn-outline-primary.my-2.my-sm-0 Surprise Me!
+          li.nav-item.active.my-nav-item
+            button.btn.btn-sm.btn-outline-danger.my-2.my-sm-0 Trending!
+    section#cover
+      #cover-caption
+        .container
+          .col-sm-10.col-sm-offset-1
+            h1 BLOG-IT
+            p
+              | Come for what you love. 
+              br
+              |               Stay for what you discover.
+            .my-btn-group
+              button.btn.btn-lg.btn-primary.my-2.my-btns(data-toggle='modal', data-target='#my-modal') Login
+              br
+              a.btn.btn-lg.btn-danger.my-2.my-btns(href="/users/register") Sign Up
+              #my-modal.modal(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+                .modal-dialog(role='document')
+                  .modal-content
+                    .modal-header
+                      h5#ModalLabel.modal-title LOGIN
+                      button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') ×
+                    .modal-body
+                      form(method='POST', action='/users/login')
+                        .form-group
+                          input#Email1.form-control(type='email',name='username', aria-describedby='emailHelp', placeholder='Username')
+                        .form-group
+                          input#Password1.form-control(type='password',name='password', placeholder='Password')
+                          .forgot-pass
+                            a#forgot-password(href='#', data-toggle='modal', data-target='#forgot-password-modal') Forgot Password?
+                          button.btn.btn-primary.my-modal-login(type='submit') Login
+              #forgot-password-modal.modal(tabindex='-1', role='dialog', aria-labelledby='ModalLabel', aria-hidden='true')
+                .modal-dialog(role='document')
+                  .modal-content
+                    .modal-header
+                      h5#forgot-password-ModalLabel.modal-title Forgot Password
+                      button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') ×
+                    .modal-body
+                      form
+                        .form-group
+                          input#Email2.form-control(type='email', aria-describedby='emailHelp', placeholder='Email')
+                        .form-group
+                          button.btn.btn-primary.my-modal-login(type='submit') Submit
+    section#carousel
+      #my-carousel.carousel.slide(data-ride='carousel')
+        ol.carousel-indicators
+          li.active(data-target='#my-carousel', data-slide-to='0')
+          li(data-target='#my-carousel', data-slide-to='1')
+          li(data-target='#my-carousel', data-slide-to='2')
+          li(data-target='#my-carousel', data-slide-to='3')
+        .carousel-inner
+          .carousel-item.active
+            img.d-block.w-100(src='images/woman-camera.jpg', alt='First slide')
+            .carousel-caption.d-none.d-md-block
+              h1 What to do?
+          .carousel-item
+            img.d-block.w-100(src='images/pexels-photo-573299.jpeg', alt='Second slide')
+            .carousel-caption.d-none.d-md-block
+              h1 Post some photos of yourself.
+          .carousel-item
+            img.d-block.w-100(src='images/banjo.jpg', alt='Third slide')
+            .carousel-caption.d-none.d-md-block
+              h1 Or something you love to do.
+          .carousel-item
+            img.d-block.w-100(src='images/pexels-photo-261662.jpeg', alt='Third slide')
+            .carousel-caption.d-none.d-md-block
+              h1 Or write about it.
+    section#section-1
+      .container
+        .row
+          .col.col-lg-6.left-items
+            h1 Seriously, put anything you want here.
+            p
+              | Seven post types to get you started. Your brain can do the rest. This thing is yours. Use it however you like.
+          .col.col-lg-6.right-items
+            p
+              | We made it really, really simple for people to make a blog and put whatever they want on it. Stories, photos, GIFs, TV shows, links, quips, dumb jokes, smart jokes, Spotify tracks, mp3s, videos, fashion, art, deep stuff. filled with literally whatever.
+            p
+              | Seven post types to get you started. Your brain can do the rest. This thing is yours. Use it however you like.
+    section
+      #footer-reveal
+    section#footer
+      .container
+        .row.footer-top
+          .col.col-lg-6.footer-left-items
+            ul
+              li.my-footer-item
+                a(href='#') Support
+              li.my-footer-item
+                a(href='#') Terms
+              li.my-footer-item
+                a(href='#') Our Team
+              li.my-footer-item
+                a(href='#') Privacy
+              li.my-footer-item
+                a(href='#') Help
+          .col.col-lg-6.footer-right-items
+            h2 Contact Us.
+            form
+              .form-group
+                textarea(name='Text', rows='2', cols='75', wrap='hard')
+              .form-group
+                input#Email.form-control(type='email', placeholder='Enter email')
+                small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
+              button.btn.btn-primary(type='submit') Submit
+        div
+          .footer-line
+        .footer-bottom
+          br
+          h2 BLOG-IT
+    script(src='bower-components/jquery/dist/jquery.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js', integrity='sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4', crossorigin='anonymous')
+    script(src='bower-components/bootstrap/dist/js/bootstrap.min.js')
+    script.
+      $(document).ready(function () {
+      $('.carousel').carousel();
+      $('#MyModal').modal();
+      $('#forgot-password').on('click', function () {
+      $('#my-modal').modal('hide');
+      });
+      });
+      $('#my-carousel').carousel({
+      interval: 4000,
+      cycle: true,
+      pause: false
+      });

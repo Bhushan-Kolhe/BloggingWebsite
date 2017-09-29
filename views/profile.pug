@@ -1,0 +1,108 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title BLOG-IT
+    link(rel='stylesheet', href='../bower-components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='../css/font-awesome.min.css')
+    link(rel='stylesheet', href='../css/styles.css')
+  body.profile
+    nav.navbar.navbar-expand.navbar-light.nav-dark
+      a#logo-light.navbar-brand(href='#') BLOG-IT
+      div
+        ul#my-nav-list.navbar-nav
+          form.form-inline.my-lg-0.my-nav-item
+            .box
+              .container-1
+                span.icon
+                  i.fa.fa-search
+                input#search(type='search', placeholder='Search...')
+          li.nav-item.active.my-nav-item
+            button.btn.btn-sm.btn-outline-primary.my-2.my-sm-0 Surprise Me!
+          li.nav-item.active.my-nav-item
+            button.btn.btn-sm.btn-outline-danger.my-2.my-sm-0 Trending!
+    section#profile-cover
+      .profile-coverpic
+        .profile-overlay
+          .container.profile-stats
+            .profile-pic
+            ul#profile-stats
+              li
+                ul
+                  li 0
+                  li Followers
+              li
+                ul
+                  li 0
+                  li Following
+              li
+                ul
+                  li 0
+                  li Posts
+              li
+                ul
+                  li 0
+                  li Views
+    section#profile-body
+      .container
+        .row
+          .profile-left-column.col-lg-3
+            h2 Bhushan Kolhe
+            ul
+              li
+                a.btn.btn-block(href='#') Profile
+              li
+                a.btn.btn-block(href='#') My Posts
+              li
+                a.btn.btn-block(href='#') Explore
+              li
+                a.btn.btn-block(href='#') Logout
+          .profile-right-column.col-lg-8
+            .new-post-area
+              h4 New Post
+              .separator
+              form.new-post(action='index.html', method='post')
+                label.label-new-post-title(for='Title')
+                  input.new-post-title(type='text', name='Title', placeholder='Title...')
+                textarea.new-post-content(placeholder='Content...')
+                br
+                label.btn.btn-outline-primary.custom-file-upload
+                  input(type='file')
+                  |                 Add Image
+                input.btn.btn-outline-danger.new-post-btn(type='submit', value='Post')
+            .card.mb-3
+              img.card-img-top(src='images/pexels-photo-227675.jpeg')
+              .card-body
+                h4.card-title Post 1
+                p.card-text
+                  | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis ad, voluptas ea, asperiores nam omnis libero aut aspernatur similique unde dolorem. Maiores magnam aspernatur nesciunt, nobis error corrupti eligendi doloremque dolor facere quia perferendis laborum, officiis architecto pariatur modi sequi. Accusamus dolorum et cumque itaque dicta repellat provident debitis magni illo cupiditate magnam deleniti ex, tempora aperiam molestiae, voluptatem nemo minus ducimus odit ut, perspiciatis molestias enim hic placeat. Quod optio nulla dolorem enim. Natus incidunt consequatur rerum quae labore ullam obcaecati, praesentium, facilis vitae enim asperiores sequi deserunt possimus. Labore magnam eos sapiente, expedita voluptas veniam culpa doloribus. Hic.
+                p.card-text
+                  small.text-muted Last updated 3 mins ago
+              .card-footer
+                ul.card-footer-left
+                  li
+                    a(href='#') 00 Likes
+                  li
+                    a(href='#') 00 Views
+                  li
+                    a(href='#') 00 Comments
+                ul.card-footer-right
+                  li
+                    small.text-muted Last updated 3 mins ago
+    section
+      #footer-reveal
+    script(src='bower-components/jquery/dist/jquery.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js', integrity='sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4', crossorigin='anonymous')
+    script(src='bower-components/bootstrap/dist/js/bootstrap.min.js')
+    script.
+      $(document).ready(function () {
+      $('.carousel').carousel();
+      $('#MyModal').modal();
+      });
+      $('#my-carousel').carousel({
+      interval: 4000,
+      cycle: true,
+      pause: false
+      });
