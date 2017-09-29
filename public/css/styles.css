@@ -514,6 +514,14 @@ input[type="file"] {
 .new-post-title:focus{
   border-bottom: solid 4px #1f2122;
 }
+.new-post-title-valid,
+.new-post-title-valid:focus{
+  border-bottom: solid 4px #03c439;
+}
+.new-post-title-invalid,
+.new-post-title-invalid:focus{
+  border-bottom: solid 4px #dd3545;
+}
 .new-post-content{
   width: 100%;
   height: 6rem;
@@ -525,6 +533,14 @@ input[type="file"] {
 .new-post-content:focus{
   border: none;
   border-bottom: solid 4px #1f2122;
+}
+.new-post-content-valid,
+.new-post-content-valid:focus{
+  border-bottom: solid 4px #03c439;
+}
+.new-post-content-invalid,
+.new-post-content-invalid:focus{
+  border-bottom: solid 4px #dd3545;
 }
 .separator{
   border: 1px solid #212120;

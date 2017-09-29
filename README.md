@@ -1,9 +1,12 @@
 #Hot to Use
-Installation
+Download and Install node.js from https://nodejs.org/en/
 
-Install the dependencies
+To install the dependencies
 
-$ npm install
-Run app
+Open terminal in the project folder
 
-$ npm start
+npm install:
+
+To run app:
+
+npm start

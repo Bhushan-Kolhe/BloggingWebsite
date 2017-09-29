@@ -63,10 +63,10 @@ html(lang='en')
             .new-post-area
               h4 New Post
               .separator
-              form.new-post(action='index.html', method='post')
+              form.new-post#new-post-form(action='index.html', method='post')
                 label.label-new-post-title(for='Title')
-                  input.new-post-title(type='text', name='Title', placeholder='Title...')
-                textarea.new-post-content(placeholder='Content...')
+                  input.new-post-title#new-post-title(type='text', name='Title', placeholder='Title...')
+                textarea.new-post-content#new-post-content(placeholder='Content...')
                 br
                 label.btn.btn-outline-primary.custom-file-upload
                   input(type='file')
@@ -93,16 +93,7 @@ html(lang='en')
                     small.text-muted Last updated 3 mins ago
     section
       #footer-reveal
-    script(src='bower-components/jquery/dist/jquery.js')
+    script(src='../bower-components/jquery/dist/jquery.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js', integrity='sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4', crossorigin='anonymous')
-    script(src='bower-components/bootstrap/dist/js/bootstrap.min.js')
-    script.
-      $(document).ready(function () {
-      $('.carousel').carousel();
-      $('#MyModal').modal();
-      });
-      $('#my-carousel').carousel({
-      interval: 4000,
-      cycle: true,
-      pause: false
-      });
+    script(src='../bower-components/bootstrap/dist/js/bootstrap.min.js')
+    script(src='../js/Validation.js')
