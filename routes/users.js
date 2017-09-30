@@ -161,8 +161,7 @@ router.get('/myPosts', function (req, res) {
       res.render('my-posts', {
         Posts: posts
       });
-    }
-    else {
+    } else {
       res.render('my-posts');
     }
   });
