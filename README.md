@@ -6,8 +6,8 @@ To install the dependencies
 
 Open terminal in the project folder
 
-npm install:
+Type: npm install
 
 To run app:
 
-npm start
+Type: npm start
