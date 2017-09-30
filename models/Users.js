@@ -25,6 +25,26 @@ const UserSchema = mongoose.Schema({
   Gender: {
     type: Buffer,
     required: true
+  },
+  ProfilePic: {
+    type: String,
+    required: true
+  },
+  CoverPic: {
+    type: String,
+    required: true
+  },
+  Followers: {
+    type: Number,
+    required: true
+  },
+  Following: {
+    type: Number,
+    required: true
+  },
+  Posts: {
+    type: Number,
+    required: true
   }
 });
 

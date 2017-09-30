@@ -411,17 +411,6 @@ textarea{
 .modal-body{
   background-color: rgb(30, 33, 33);
 }
-.profile-coverpic{
-  height: 50vh;
-  background: #464646 url(../images/pexels-photo-420754.jpeg) center no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  left: 0;
-  right: 0;
-  background-color: #464646;
-  display: flex;
-  flex-direction: column-reverse;
-}
 .profile-overlay{
   height: 15%;
   min-width: 100%;
@@ -435,15 +424,7 @@ textarea{
   flex-direction: row;
   margin-top: 1%;
 }
-.profile-pic{
-  height: 250px;
-  width: 250px;
-  border: 6px solid #fff;
-  border-radius: 50%;
-  background: #464646 url(../images/IMG_5688_1.jpg) center no-repeat;
-  background-size: cover;
-  margin-top: -110px;
-}
+
 #profile-stats{
   display: flex;
   width: 75%;

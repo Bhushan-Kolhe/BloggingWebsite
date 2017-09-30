@@ -27,6 +27,12 @@ router.post('/register', function (req, res) {
   const Password2 = req.body.Password2;
   const Birthday = req.body.bday;
   const Gender = req.body.gender;
+  const CoverPic = '../images/pexels-photo-227675.jpeg';
+  const ProfilePic = '../images/IMG_5688_1.jpg';
+  const Followers = 0;
+  const Following = 0;
+  const Posts = 0;
+
   User.findOne({ Email: Email }, function (err, user) {
     if (err) return console.error(err);
     if (user) {
@@ -53,7 +59,12 @@ router.post('/register', function (req, res) {
           Email: Email,
           Password: Password,
           BirthDate: Birthday,
-          Gender: Gender
+          Gender: Gender,
+          CoverPic: CoverPic,
+          ProfilePic: ProfilePic,
+          Followers: Followers,
+          Following: Following,
+          Posts: Posts
         });
         bcrypt.genSalt(10, function (err, salt) {
           bcrypt.hash(newUser.Password, salt, function (err, hash) {
@@ -140,7 +151,7 @@ router.post('/login', function (req, res, next) {
 });
 
 router.get('/profile', function (req, res) {
-  res.render('profile')
+  res.render('profile');
 });
 
 //Logout
