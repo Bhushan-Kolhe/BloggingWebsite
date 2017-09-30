@@ -46,7 +46,7 @@ html(lang='en')
                     .modal-body
                       form(method='POST', action='/users/login')
                         .form-group
-                          input#Email1.form-control(type='email',name='username', aria-describedby='emailHelp', placeholder='Username')
+                          input#Email1.form-control(type='email',name='username', aria-describedby='emailHelp', placeholder='Email')
                         .form-group
                           input#Password1.form-control(type='password',name='password', placeholder='Password')
                           .forgot-pass
@@ -120,11 +120,11 @@ html(lang='en')
                 a(href='#') Help
           .col.col-lg-6.footer-right-items
             h2 Contact Us.
-            form#feedback-form
+            form#feedback-form(method='POST', action='/feedback')
               .form-group
-                textarea#feedback-textarea(name='Text', rows='2', cols='75', wrap='hard')
+                textarea#feedback-textarea(name='feedbackContent', rows='2', cols='75', wrap='hard')
               .form-group
-                input#feedback-email.form-control(type='email', placeholder='Enter email')
+                input#feedback-email.form-control(type='email', placeholder='Enter email' , name='feedbackEmail')
                 small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
               button.btn.btn-primary(type='submit') Submit
         div

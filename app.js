@@ -8,6 +8,9 @@ const session = require('express-session');
 const config = require('./config/database');
 const passport = require('passport');
 
+//Get Feedback Model
+let Feedback = require('./models/Feedback');
+
 //Connecting to db
 mongoose.connect(config.database);
 let db = mongoose.connection;
@@ -75,12 +78,48 @@ require('./config/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('*', function (req, res, next) {
+  res.locals.user = req.user || null;
+  next();
+});
+
 // parse application/json
 app.use(bodyParser.json());
 
 //Home Route
 app.get('/', function (req, res) {
   res.render('index');
+});
+
+//Feedback route
+app.post('/feedback', function (req, res) {
+  const Email = req.body.feedbackEmail;
+  const Content = req.body.feedbackContent;
+
+  req.checkBody('feedbackContent', 'Content is required').notEmpty();
+  req.checkBody('feedbackEmail', 'Email is required').notEmpty();
+  req.checkBody('feedbackEmail', 'Email is not valid').isEmail();
+
+  let errors = req.validationErrors();
+
+  if (errors) {
+    res.render('index', {
+      feedbackErrors: errors
+    });
+  } else {
+    let newFeedback = new Feedback({
+      Email: Email,
+      Content: Content
+    });
+    newFeedback.save(function (err) {
+      if (err) {
+        console.log(err);
+        return;
+      } else {
+        res.redirect('/');
+      }
+    });
+  }
 });
 
 

@@ -140,7 +140,14 @@ router.post('/login', function (req, res, next) {
 });
 
 router.get('/profile', function (req, res) {
-  res.render('profile');
-})
+  res.render('profile')
+});
+
+//Logout
+router.get('/logout', function (req, res){
+  req.logout();
+  res.redirect('/');
+});
+
 
 module.exports = router;

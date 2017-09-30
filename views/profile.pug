@@ -49,7 +49,8 @@ html(lang='en')
       .container
         .row
           .profile-left-column.col-lg-3
-            h2 Bhushan Kolhe
+            if user
+              h2 #{user.FirstName + ' ' + user.LastName}
             ul
               li
                 a.btn.btn-block(href='#') Profile
@@ -58,7 +59,7 @@ html(lang='en')
               li
                 a.btn.btn-block(href='#') Explore
               li
-                a.btn.btn-block(href='#') Logout
+                a.btn.btn-block(href='/users/logout') Logout
           .profile-right-column.col-lg-8
             .new-post-area
               h4 New Post
