@@ -97,7 +97,8 @@ router.post('/New-Post', function (req, res, next) {
   let newPost;
   let currentUser;
   let isFile = false;
-  if (req.files) {
+  if (req.files.Image) {
+    console.log(req.files);
     File = req.files.Image;
     Image = File.name;
     isFile = true;
@@ -113,9 +114,7 @@ router.post('/New-Post', function (req, res, next) {
     });
   } else {
     if (isFile) {
-
-
-      if (fs.existsSync('./public/users/' + req.user._id + 'images')) {
+      if (fs.existsSync('./public/users/' + req.user._id + '/images')) {
         File.mv('./public/users/' + req.user._id + '/images/' + Image, function (err) {
           if (err)
             return res.status(500).send(err);
@@ -133,14 +132,14 @@ router.post('/New-Post', function (req, res, next) {
         Title: Title,
         Content: Content,
         Image: Image,
-        UserId: 'z'
+        UserId: req.user._id
       });
     } else {
       newPost = new Post({
         Title: Title,
         Content: Content,
         Image: 'no-image',
-        UserId: 'z'
+        UserId: req.user._id
       });
     }
     newPost.save(function (err) {
@@ -152,6 +151,21 @@ router.post('/New-Post', function (req, res, next) {
       }
     });
   }
+});
+
+//My-post route
+router.get('/myPosts', function (req, res) {
+  Post.find({ UserId: req.user._id }, function (err, posts) {
+    if (err) console.log(err);
+    if (posts != '') {
+      res.render('my-posts', {
+        Posts: posts
+      });
+    }
+    else {
+      res.render('my-posts');
+    }
+  });
 });
 
 //Login process
