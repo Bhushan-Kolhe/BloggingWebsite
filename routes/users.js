@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const fileUpload = require('express-fileupload');
+const fs = require('fs');
 
 //Get Users Model
 let User = require('../models/Users');
@@ -94,6 +95,7 @@ router.post('/New-Post', function (req, res, next) {
   let File;
   let Image;
   let newPost;
+  let currentUser;
   let isFile = false;
   if (req.files) {
     File = req.files.Image;
@@ -111,10 +113,22 @@ router.post('/New-Post', function (req, res, next) {
     });
   } else {
     if (isFile) {
-      File.mv('./public/images/' + Image, function (err) {
-        if (err)
-          return res.status(500).send(err);
-      });
+
+
+      if (fs.existsSync('./public/users/' + req.user._id + 'images')) {
+        File.mv('./public/users/' + req.user._id + '/images/' + Image, function (err) {
+          if (err)
+            return res.status(500).send(err);
+        });
+      } else {
+        fs.mkdirSync('./public/users/' + req.user._id, 0777);
+        fs.mkdirSync('./public/users/' + req.user._id + '/images/', 0777);
+        File.mv('./public/users/' + req.user._id + '/images/' + Image, function (err) {
+          if (err)
+            return res.status(500).send(err);
+        });
+      }
+
       newPost = new Post({
         Title: Title,
         Content: Content,
@@ -130,7 +144,6 @@ router.post('/New-Post', function (req, res, next) {
       });
     }
     newPost.save(function (err) {
-      console.log("asd");
       if(err){
         console.log(err);
         return;
