@@ -26,7 +26,7 @@ html(lang='en')
         border: 6px solid #fff;
         border-radius: 50%;
         background: #464646 url(#{user.ProfilePic}) center no-repeat;
-        background-size: cover;
+        background-size: contain;
         margin-top: -110px;
       }
   body.profile
@@ -45,10 +45,18 @@ html(lang='en')
           li.nav-item.active.my-nav-item
             button.btn.btn-sm.btn-outline-danger.my-2.my-sm-0 Trending!
     section#profile-cover
+      form.new-post.hide-form#new-cover-pic(method='POST',action='/users/New-Cover-Pic',onchange="$('#new-cover-pic').submit();", encType="multipart/form-data")
+        label.custom-file-upload
+          <i class="fa fa-camera" aria-hidden="true"></i>
+          input(name='Image', type='file')
       .profile-coverpic
         .profile-overlay
           .container.profile-stats
             .profile-pic
+              form.new-post.hide-form#new-profile-pic(method='POST',action='/users/New-Profile-Pic',onchange="$('#new-profile-pic').submit();", encType="multipart/form-data")
+                label.custom-file-upload
+                  <i class="fa fa-camera" aria-hidden="true"></i>
+                  input(name='Image', type='file')
             ul#profile-stats
               li
                 ul

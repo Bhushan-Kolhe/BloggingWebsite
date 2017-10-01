@@ -193,4 +193,16 @@ $(document).ready(function () {
     }
   })
 
+  $('.profile-pic').hover(function () {
+    $('#new-profile-pic').removeClass("hide-form");
+  }, function () {
+    $('#new-profile-pic').addClass("hide-form");
+  });
+
+  $('#profile-cover').hover(function () {
+    $('#new-cover-pic').removeClass("hide-form");
+  }, function () {
+    $('#new-cover-pic').addClass("hide-form");
+  });
+
 });

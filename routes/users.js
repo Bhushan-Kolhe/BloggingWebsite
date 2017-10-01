@@ -153,6 +153,83 @@ router.post('/New-Post', function (req, res, next) {
   }
 });
 
+//new-profile-pic
+router.post('/New-Profile-Pic', function (req, res) {
+  let File;
+  let Image;
+  let isFile = false;
+
+  if (req.files.Image) {
+    File = req.files.Image;
+    Image = File.name;
+    isFile = true;
+  }
+
+  if (isFile) {
+    if (fs.existsSync('./public/users/' + req.user._id + '/images')) {
+      File.mv('./public/users/' + req.user._id + '/images/' + Image, function (err) {
+        if (err)
+          return res.status(500).send(err);
+      });
+    } else {
+      fs.mkdirSync('./public/users/' + req.user._id, 0777);
+      fs.mkdirSync('./public/users/' + req.user._id + '/images/', 0777);
+      File.mv('./public/users/' + req.user._id + '/images/' + Image, function (err) {
+        if (err)
+          return res.status(500).send(err);
+      });
+    }
+  }
+
+  User.findOne({ Email: req.user.Email }, function (err, user) {
+    if (err) return console.error(err);
+    if (user) {
+      user.ProfilePic = '../users/' + req.user._id + '/images/' + Image;
+      user.save();
+    }
+  });
+  res.redirect('/users/profile');
+});
+
+//new-cover-pic
+router.post('/New-Cover-Pic', function (req, res) {
+  let File;
+  let Image;
+  let isFile = false;
+
+  if (req.files.Image) {
+    File = req.files.Image;
+    Image = File.name;
+    isFile = true;
+  }
+
+  if (isFile) {
+    if (fs.existsSync('./public/users/' + req.user._id + '/images')) {
+      File.mv('./public/users/' + req.user._id + '/images/' + Image, function (err) {
+        if (err)
+          return res.status(500).send(err);
+      });
+    } else {
+      fs.mkdirSync('./public/users/' + req.user._id, 0777);
+      fs.mkdirSync('./public/users/' + req.user._id + '/images/', 0777);
+      File.mv('./public/users/' + req.user._id + '/images/' + Image, function (err) {
+        if (err)
+          return res.status(500).send(err);
+      });
+    }
+  }
+
+  User.findOne({ Email: req.user.Email }, function (err, user) {
+    if (err) return console.error(err);
+    if (user) {
+      user.CoverPic = '../users/' + req.user._id + '/images/' + Image;
+      user.save();
+    }
+  });
+
+  res.redirect('/users/profile');
+});
+
 //My-post route
 router.get('/myPosts', function (req, res) {
   Post.find({ UserId: req.user._id }, function (err, posts) {

@@ -600,3 +600,26 @@ input[type="file"] {
 .invalid-info-alert{
   display: none;
 }
+#new-profile-pic{
+  color: #ffffff;
+  height: 10%;
+  display: flex;
+  flex-direction: column-reverse;
+}
+#new-profile-pic label{
+  display: flex;
+  flex-direction: row-reverse;
+  width: 50%;
+}
+form#new-profile-pic.hide-form{
+  display: none;
+}
+form#new-cover-pic.hide-form{
+  display: none;
+}
+#new-cover-pic{
+  color: #ffffff;
+  width: 95%;
+  display: flex;
+  flex-direction: row-reverse;
+}
