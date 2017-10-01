@@ -142,15 +142,27 @@ router.post('/New-Post', function (req, res, next) {
         UserId: req.user._id
       });
     }
+    req.user.Posts = req.user.Posts + 1;
+    req.user.save();
     newPost.save(function (err) {
       if(err){
         console.log(err);
         return;
       } else {
-        res.redirect('/');
+        res.redirect('/users/myPosts');
       }
     });
   }
+});
+
+//single post route
+router.get('/post/:id', function (req,res) {
+  const id = req.params.id;
+  Post.findById(id, function (err, post) {
+    res.render('post', {
+      post: post
+    });
+  });
 });
 
 //new-profile-pic

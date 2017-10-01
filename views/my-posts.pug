@@ -81,26 +81,28 @@ html(lang='en')
               li
                 a.btn.btn-block(href='#') Logout
           .profile-right-column.col-lg-8
+            if !Posts
+              h2 You dont have any Posts.
             .card-columns.my-post-cloumns
               if Posts
                 each post, i in Posts
                   if post.Image == 'no-image'
-                    .card
-                      .card-body
-                        h4.card-title #{post.Title}
-                        p.card-text #{post.Content}
-                        p.card-text
-                          small.text-muted Last updated 3 mins ago
+                    a(href="/users/post/"+post._id)
+                      .card
+                        .card-body
+                          h4.card-title #{post.Title}
+                          p.card-text #{post.Content}
+                          p.card-text
+                            small.text-muted Last updated 3 mins ago
                   else
-                    .card
-                      img.card-img-top(src='../users/'+post.UserId+'/images/'+post.Image, alt='Card image cap')
-                      .card-body
-                        h4.card-title #{post.Title}
-                        p.card-text #{post.Content}
-                        p.card-text
-                          small.text-muted Last updated 3 mins ago        
-              else
-                h2 You dont have any Posts.
+                    a(href="/users/post/"+post._id)
+                      .card
+                        img.card-img-top(src='../users/'+post.UserId+'/images/'+post.Image, alt='Card image cap')
+                        .card-body
+                          h4.card-title #{post.Title}
+                          p.card-text #{post.Content}
+                          p.card-text
+                            small.text-muted Last updated 3 mins ago        
                     
     section
       #footer-reveal

@@ -5,9 +5,17 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
     title BLOG-IT
-    link(rel='stylesheet', href='bower-components/bootstrap/dist/css/bootstrap.min.css')
-    link(rel='stylesheet', href='css/font-awesome.min.css')
-    link(rel='stylesheet', href='css/styles.css')
+    link(rel='stylesheet', href='../../bower-components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='../../css/font-awesome.min.css')
+    link(rel='stylesheet', href='../../css/styles.css')
+    style.
+      .post-img{
+        background: #222 url('../../users/#{post.UserId}/images/#{post.Image}') no-repeat;
+        width: 100%;
+        height: 30rem;
+        background-origin: border-box;
+        background-size: cover;
+      }
   body.profile
     nav.navbar.navbar-expand.navbar-light.nav-dark
       a#logo-light.navbar-brand(href='#') BLOG-IT
@@ -27,12 +35,9 @@ html(lang='en')
       .container.post-area
         .post-img
         .post-title
-          h1 Title
+          h1 #{post.Title}
         .post-content
-          p
-            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque, dicta. Veritatis libero quae sit rerum nobis, minus placeat neque, vitae esse suscipit voluptatum magni iure numquam eum impedit porro perspiciatis non soluta. Assumenda a repellat, excepturi iure, quod quae, nulla accusamus quisquam saepe, amet minus. Cupiditate hic facere fuga dicta nisi illo! Debitis laborum, mollitia, dicta, voluptate illo sapiente nam beatae magni adipisci cum quod delectus expedita, nesciunt eius suscipit porro assumenda minima? Magnam cum at nobis quaerat quae alias, rem, eveniet! Aspernatur ipsam culpa labore, ex vel blanditiis nisi doloremque quibusdam ratione iure expedita qui nostrum quas quae eos aliquid, iusto, voluptas sequi. Porro possimus fugit iste a pariatur eum deleniti enim voluptates assumenda ea? Numquam quae maxime velit maiores eveniet illum blanditiis, explicabo delectus aliquid excepturi obcaecati minima ipsa harum modi id, error quod, soluta magni perferendis dignissimos. Saepe quis consequatur nihil aliquam obcaecati, culpa soluta eum veritatis sint nulla vitae natus quia incidunt deleniti quaerat odio modi laudantium iste! Eveniet perferendis adipisci reiciendis, ipsum, dignissimos delectus ex et sapiente corporis provident, officiis error vero sequi repellendus minima deleniti! Suscipit est, molestias tenetur impedit, optio, obcaecati adipisci ab debitis sequi nobis dolore porro sed quis voluptatibus molestiae, vitae.
-          p
-            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad laboriosam dignissimos assumenda dicta quas eum officiis reprehenderit blanditiis illo, similique numquam magnam nemo deserunt ratione in quam saepe dolorum et suscipit est? Assumenda earum autem dolores eius fugiat culpa accusantium expedita quis esse, omnis minima at tenetur, aliquid. Magni voluptatem, atque minus dolores explicabo aperiam unde ipsa cumque esse voluptate perspiciatis voluptatibus similique, tenetur, quam doloremque libero officiis quo tempore iusto deleniti labore dolor? Rem dolorem qui quod quo recusandae ea ab alias repudiandae ipsam cumque et beatae eius, quisquam architecto cupiditate quae quibusdam repellendus ex ullam corrupti nihil magnam quas tempora laboriosam voluptas. Nisi fugiat provident voluptates earum, temporibus repellat ad sed debitis, ut voluptatem quod. Impedit beatae, explicabo, quis neque, ea magni et animi, quia accusantium unde temporibus.
-    script(src='bower-components/jquery/dist/jquery.js')
+          p #{post.Content}
+    script(src='../../bower-components/jquery/dist/jquery.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js', integrity='sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4', crossorigin='anonymous')
-    script(src='bower-components/bootstrap/dist/js/bootstrap.min.js')
+    script(src='../../bower-components/bootstrap/dist/js/bootstrap.min.js')
