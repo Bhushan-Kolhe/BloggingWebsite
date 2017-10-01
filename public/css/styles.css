@@ -2,6 +2,11 @@ html,body{
   max-width: 100%;
   height: auto;
 }
+a:hover,
+a{
+  text-decoration: none;
+  color: inherit;
+}
 ul{
   list-style: none;
 }
@@ -615,4 +620,27 @@ form#new-cover-pic.hide-form{
   width: 95%;
   display: flex;
   flex-direction: row-reverse;
+}
+#Searches{
+  margin-top: 2rem;
+}
+#Searches div.container{
+  background: #fff;
+  padding: 1rem 0rem;
+}
+#Searches div.container div.row{
+  margin: 0rem 1rem;
+}
+.user-card,
+.post-card{
+  margin: 1rem auto;
+}
+div.card.user-card.text-center.col-lg-3,
+div.card.post-card.text-center.col-lg-5{
+  padding-left: 0;
+  padding-right: 0;
+}
+div.search-page-separator{
+  width: 100%;
+  border: 1px solid #4d4d4d;
 }

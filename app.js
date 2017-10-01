@@ -8,6 +8,12 @@ const session = require('express-session');
 const config = require('./config/database');
 const passport = require('passport');
 
+//Get Users Model
+let User = require('./models/Users');
+
+//Get Post model
+let Post = require('./models/Posts');
+
 //Get Feedback Model
 let Feedback = require('./models/Feedback');
 
@@ -120,6 +126,113 @@ app.post('/feedback', function (req, res) {
       }
     });
   }
+});
+
+//search route
+app.post('/search', function (req, res) {
+  const search = req.body.Search;
+  var i = 0;
+  let searchedFirstWord = '';
+  let searchedUsers = 'asd';
+  let searchedPosts;
+  let space = false;
+  let email = false;
+  for (i = 0; i < search.length; i++){
+    if (search[i] == ' ') space = true;
+    if (search[i] == '@') email = true;
+  }
+  if (space) {
+    for (i = 0; i < search.length; i++) {
+      if (search[i] != ' ') {
+        searchedFirstWord = searchedFirstWord + search[i];
+      } else {
+        break;
+      }
+
+    }
+  }
+  
+  if (email) {
+    User.find({ Email: search }, function (err, user) {
+      if (err) {
+        console.log(err);
+      }
+
+      if (user != '') {
+        res.render('search', {
+          users: user,
+          errPost: 'No posts Found',
+        });
+      } else {
+        return;
+
+        //res.render('search', { err: 'No user Found' });
+      }
+    });
+  }
+
+  User.find({ FirstName: search }, function (err, users) {
+    if (err) {
+      console.log(err);
+    }
+
+    if (users != '') {
+      res.render('search', {
+        users: users,
+        errPost: 'No posts Found',
+      });
+    } else {
+      return;
+    }
+  });
+
+  User.find({ FirstName: searchedFirstWord }, function (err, users) {
+    if (err) {
+      console.log(err);
+    }
+
+    if (users != '') {
+      res.render('search', {
+        users: users,
+        errPost: 'No posts Found',
+      });
+    } else {
+      return;
+    }
+  });
+
+  User.find({ LastName: search }, function (err, users) {
+    if (err) {
+      console.log(err);
+    }
+
+    if (users != '') {
+      res.render('search', {
+        users: users,
+        errPost: 'No posts Found',
+      });
+    } else {
+      return;
+    }
+  });
+
+  Post.find({ Title: search }, function (err, Posts) {
+    if (err) {
+      console.log(err);
+    }
+
+    if (Posts != '') {
+      res.render('search', {
+        Posts: Posts,
+        errUser: 'No users Found',
+      });
+    } else {
+      res.render('search', {
+        errPost: 'No posts Found',
+        errUser: 'No users Found',
+      });
+    }
+  });
 });
 
 

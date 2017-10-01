@@ -1,0 +1,58 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title BLOG-IT
+    link(rel='stylesheet', href='bower-components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='css/font-awesome.min.css')
+    link(rel='stylesheet', href='css/styles.css')
+  body.profile
+    nav.navbar.navbar-expand.navbar-light.nav-dark
+      a#logo-light.navbar-brand(href='#') BLOG-IT
+      div
+        ul#my-nav-list.navbar-nav
+          form.form-inline.my-lg-0.my-nav-item(method='POST',action='/search')
+            .box
+              .container-1
+                span.icon
+                  i.fa.fa-search
+                input#search(type='search', placeholder='Search...')
+          li.nav-item.active.my-nav-item
+            button.btn.btn-sm.btn-outline-primary.my-2.my-sm-0 Surprise Me!
+          li.nav-item.active.my-nav-item
+            button.btn.btn-sm.btn-outline-danger.my-2.my-sm-0 Trending!
+    section#Searches
+      .container.categories-content
+        .row
+          h2 Users
+          .search-page-separator
+          .row
+            if users
+              each user, i in users
+                .card.user-card.text-center.col-lg-3
+                  img.card-img-top(src='images/IMG_5688_1.jpg', alt='')
+                  .card-body
+                    h4.card-title #{user.FirstName + ' ' + user.LastName}
+            else
+              h4 #{errUser}
+        .row
+          h2 Posts
+          .search-page-separator
+          .row
+            if Posts
+              each post, i in Posts
+                a(href="/users/post/"+post._id)
+                  .card.post-card.text-center.col-lg-5
+                    img.card-img-top(src = 'users/' + post.UserId + '/images/' + post.Image, alt='')
+                    .card-body
+                      h4.card-title #{post.Title}
+                      p.card-text #{post.Content}
+                      p.card-text
+                        small.text-muted Last updated 3 mins ago
+            else
+              h4 #{errPost}
+    script(src='bower-components/jquery/dist/jquery.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js', integrity='sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4', crossorigin='anonymous')
+    script(src='bower-components/bootstrap/dist/js/bootstrap.min.js')
