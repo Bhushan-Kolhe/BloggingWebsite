@@ -137,7 +137,7 @@ app.post('/search', function (req, res) {
   let searchedPosts;
   let space = false;
   let email = false;
-  for (i = 0; i < search.length; i++){
+  for (i = 0; i < search.length; i++) {
     if (search[i] == ' ') space = true;
     if (search[i] == '@') email = true;
   }
@@ -151,7 +151,7 @@ app.post('/search', function (req, res) {
 
     }
   }
-  
+
   if (email) {
     User.find({ Email: search }, function (err, user) {
       if (err) {
