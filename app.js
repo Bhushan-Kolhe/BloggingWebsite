@@ -22,7 +22,7 @@ mongoose.connect(config.database);
 let db = mongoose.connection;
 
 //Check connection
-db.once('open',function () {
+db.once('open', function () {
   console.log('Connected to MongoDb');
 });
 
@@ -142,6 +142,7 @@ app.post('/search', function (req, res) {
     if (search[i] == '@') email = true;
   }
   if (space) {
+    space = false;
     for (i = 0; i < search.length; i++) {
       if (search[i] != ' ') {
         searchedFirstWord = searchedFirstWord + search[i];
@@ -153,6 +154,7 @@ app.post('/search', function (req, res) {
   }
 
   if (email) {
+    email = false;
     User.find({ Email: search }, function (err, user) {
       if (err) {
         console.log(err);
