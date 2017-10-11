@@ -1,0 +1,109 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title BLOG-IT
+    link(rel='stylesheet', href='../../bower-components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='../../css/font-awesome.min.css')
+    link(rel='stylesheet', href='../../css/styles.css')
+    style.
+      .profile-coverpic{
+      height: 50vh;
+      background: #464646 url(../#{user.CoverPic}) center no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      left: 0;
+      right: 0;
+      background-color: #464646;
+      display: flex;
+      flex-direction: column-reverse;
+      }
+      .profile-pic{
+        height: 250px;
+        width: 250px;
+        border: 6px solid #fff;
+        border-radius: 50%;
+        background: #464646 url(../#{user.ProfilePic}) center no-repeat;
+        background-size: cover;
+        margin-top: -110px;
+      }
+  body.profile
+    nav.navbar.navbar-expand.navbar-light.nav-dark
+      a#logo-light.navbar-brand(href='#') BLOG-IT
+      div
+        ul#my-nav-list.navbar-nav
+          form.form-inline.my-lg-0.my-nav-item(method='POST',action='/search')
+            .box
+              .container-1
+                span.icon
+                  i.fa.fa-search
+                input#search(type='search',name='Search' placeholder='Search...')
+          li.nav-item.active.my-nav-item
+            button.btn.btn-sm.btn-outline-primary.my-2.my-sm-0 Surprise Me!
+          li.nav-item.active.my-nav-item
+            button.btn.btn-sm.btn-outline-danger.my-2.my-sm-0 Trending!
+    section#profile-cover
+      .profile-coverpic
+        .profile-overlay
+          .container.profile-stats
+            .profile-pic
+            ul#profile-stats
+              li
+                ul
+                  li #{user.Followers}
+                  li Followers
+              li
+                ul
+                  li #{user.Following}
+                  li Following
+              li
+                ul
+                  li #{user.Posts}
+                  li Posts
+              li
+                ul
+                  li 0
+                  li Views
+    section
+      .container
+        .row
+          .col-lg-3
+          .col-lg-2
+            if !isfollowing
+              a.btn.btn-md.btn-outline-primary#follow-btn(href="/users/follow/"+user._id) Follow
+            else
+              a.btn.btn-md.btn-outline-danger#follow-btn(href="/users/unfollow/"+user._id) Unfollow
+    section#profile-body
+      .container
+        .row
+          .profile-right-column.col-lg-12
+            if !Posts
+              h2 User dosen't have any Posts.
+            .card-columns.my-post-cloumns
+              if Posts
+                each post, i in Posts
+                  if post.Image == 'no-image'
+                    a(href="/users/post/"+post._id)
+                      .card
+                        .card-body
+                          h4.card-title #{post.Title}
+                          p.card-text #{post.Content}
+                          p.card-text
+                            small.text-muted Last updated 3 mins ago
+                  else
+                    a(href="/users/post/"+post._id)
+                      .card
+                        img.card-img-top(src='../users/'+post.UserId+'/images/'+post.Image, alt='Card image cap')
+                        .card-body
+                          h4.card-title #{post.Title}
+                          p.card-text #{post.Content}
+                          p.card-text
+                            small.text-muted Last updated 3 mins ago        
+                    
+    section
+      #footer-reveal
+    script(src='../../bower-components/jquery/dist/jquery.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js', integrity='sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4', crossorigin='anonymous')
+    script(src='../../bower-components/bootstrap/dist/js/bootstrap.min.js')

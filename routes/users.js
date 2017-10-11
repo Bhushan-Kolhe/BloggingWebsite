@@ -156,7 +156,7 @@ router.post('/New-Post', function (req, res, next) {
 });
 
 //single post route
-router.get('/post/:id', function (req,res) {
+router.get('/post/:id', function (req, res) {
   const id = req.params.id;
   Post.findById(id, function (err, post) {
     res.render('post', {
@@ -164,6 +164,62 @@ router.get('/post/:id', function (req,res) {
     });
   });
 });
+
+//single user route
+router.get('/profile/:id', function (req, res) {
+  const id = req.params.id;
+  User.findById(id, function (err, user) {
+    if (req.user) {
+      var following = req.user.MyFollowing;
+      var isfollowing = false;
+      var i = 0;
+      while (i < following.length ) {
+        if (following[i] == id) {
+          isfollowing = true;
+          res.render('userProfile', {
+            user: user,
+            isfollowing : isfollowing
+          });
+          break;
+        }
+        i++;
+      }
+
+      if (i >= following.length ) {
+        res.render('userProfile', {
+          user: user,
+          isfollowing : isfollowing
+        });
+      }
+    } else {
+      res.render('userProfile', {
+        user: user
+      });
+    }
+  });
+});
+
+//follow user
+router.get('/follow/:id', function (req, res) {
+  const id = req.params.id;
+  User.findById(id, function (err, user) {
+    if (req.user) {
+      User.findByIdAndUpdate(
+        req.user._id,
+        { $push: { 'MyFollowing': id } },
+        { safe: true, upsert: true, new : true},
+        function (err, model) {
+            model.Following += 1;
+            model.save();
+            res.redirect('/users/profile/' + id);
+          }
+      );
+    } else {
+      res.redirect("/");
+    }
+  });
+});
+
 
 //new-profile-pic
 router.post('/New-Profile-Pic', function (req, res) {

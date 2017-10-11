@@ -644,3 +644,8 @@ div.search-page-separator{
   width: 100%;
   border: 1px solid #4d4d4d;
 }
+#follow-btn{
+  width: 100%;
+  color: #fff;
+  margin-top: 1rem;
+}

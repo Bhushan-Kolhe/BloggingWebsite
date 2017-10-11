@@ -45,6 +45,12 @@ const UserSchema = mongoose.Schema({
   Posts: {
     type: Number,
     required: true
+  },
+  MyFollowers: {
+    type: [String]
+  },
+  MyFollowing: {
+    type: [String]
   }
 });
 
