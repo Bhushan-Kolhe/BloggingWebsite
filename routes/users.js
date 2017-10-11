@@ -29,7 +29,7 @@ router.post('/register', function (req, res) {
   const Birthday = req.body.bday;
   const Gender = req.body.gender;
   const CoverPic = '../images/pexels-photo-227675.jpeg';
-  const ProfilePic = '../images/IMG_5688_1.jpg';
+  const ProfilePic = '../images/default.jpg';
   const Followers = 0;
   const Following = 0;
   const Posts = 0;
