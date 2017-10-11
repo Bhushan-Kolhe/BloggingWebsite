@@ -649,3 +649,51 @@ div.search-page-separator{
   color: #fff;
   margin-top: 1rem;
 }
+.post-footer .container img{
+  width: 2rem;
+  height: 2rem;
+}
+.post-footer .container{
+  vertical-align: middle;
+}
+.post-footer .container a img{
+  margin-top: -1rem;
+}
+#likes{
+  display: inline-block;
+  height: 2rem;
+  margin-bottom: 0;
+}
+.comment-form{
+  width: 70%;
+  margin: auto;
+  color: #111;
+}
+.comment-submit-btn{
+  display: block;
+  width: 7rem;
+}
+.comment-textarea{
+  width: 100%;
+  border: 2px solid #888;
+  resize: none;
+  overflow: auto;
+}
+.comments-area{
+  width: 70%;
+  margin: auto;
+}
+#comment{
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: 2rem 0;
+}
+.comment-area{
+  border: 2px solid #333;
+  padding: 0.5rem;
+}
+.post-footers{
+  width: 70%;
+  margin: auto;
+}

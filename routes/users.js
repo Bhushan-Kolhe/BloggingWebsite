@@ -92,6 +92,8 @@ router.post('/register', function (req, res) {
 router.post('/New-Post', function (req, res, next) {
   const Title = req.body.Title;
   const Content = req.body.Content;
+  let Likes = 0;
+  let NoOfComments = 0;
   let File;
   let Image;
   let newPost;
@@ -132,14 +134,18 @@ router.post('/New-Post', function (req, res, next) {
         Title: Title,
         Content: Content,
         Image: Image,
-        UserId: req.user._id
+        UserId: req.user._id,
+        Likes: Likes,
+        NoOfComments: NoOfComments
       });
     } else {
       newPost = new Post({
         Title: Title,
         Content: Content,
         Image: 'no-image',
-        UserId: req.user._id
+        UserId: req.user._id,
+        Likes: Likes,
+        NoOfComments: NoOfComments
       });
     }
     req.user.Posts = req.user.Posts + 1;
@@ -159,9 +165,28 @@ router.post('/New-Post', function (req, res, next) {
 router.get('/post/:id', function (req, res) {
   const id = req.params.id;
   Post.findById(id, function (err, post) {
-    res.render('post', {
-      post: post
-    });
+    if (req.user) {
+      var Comments = post.Comments;
+      var users;
+      var i = 0;
+      while (i < post.NoOfComments) {
+        User.findById(Comments[i].UserId, function (err, user) {
+          users = user;
+          console.log('00');
+        });
+        i++;
+      }
+      console.log(users);
+      res.render('post', {
+        post: post,
+        CurrentUser: req.user
+      });
+    } else {
+      res.render('post', {
+        post: post,
+        CurrentUser: 0
+      });
+    }
   });
 });
 
@@ -207,12 +232,37 @@ router.get('/follow/:id', function (req, res) {
       User.findByIdAndUpdate(
         req.user._id,
         { $push: { 'MyFollowing': id } },
-        { safe: true, upsert: true, new : true},
+        { safe: true, upsert: true, new : true },
         function (err, model) {
-            model.Following += 1;
-            model.save();
-            res.redirect('/users/profile/' + id);
-          }
+          user.Followers += 1;
+          user.save();
+          model.Following += 1;
+          model.save();
+          res.redirect('/users/profile/' + id);
+        }
+      );
+    } else {
+      res.redirect("/");
+    }
+  });
+});
+
+//unfollow user
+router.get('/unfollow/:id', function (req, res) {
+  const id = req.params.id;
+  User.findById(id, function (err, user) {
+    if (req.user) {
+      User.findByIdAndUpdate(
+        req.user._id,
+        { $pull: { 'MyFollowing': id } },
+        { safe: true, upsert: true, new : true },
+        function (err, model) {
+          user.Followers -= 1;
+          user.save();
+          model.Following -= 1;
+          model.save();
+          res.redirect('/users/profile/' + id);
+        }
       );
     } else {
       res.redirect("/");
@@ -310,6 +360,28 @@ router.get('/myPosts', function (req, res) {
       res.render('my-posts');
     }
   });
+});
+
+//Post comment
+router.post('/commentPost/:id', function (req, res, next) {
+  const id = req.params.id;
+  const commentContent = req.body.commentsContent;
+  if (req.user) {
+    Post.findByIdAndUpdate(
+      id,
+      { $push: { 'Comments': {
+        UserId: req.user._id,
+        CommentContent: commentContent
+      } } },
+      { safe: true, upsert: true, new : true },
+      function (err, post) {
+        post.NoOfComments += 1;
+        post.save();
+        res.redirect('/users/post/' + post._id);
+      });
+  } else {
+    res.redirect('/');
+  }
 });
 
 //Login process

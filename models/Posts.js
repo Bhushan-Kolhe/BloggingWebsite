@@ -17,6 +17,26 @@ const PostSchema = mongoose.Schema({
   UserId: {
     type: String,
     required: true
+  },
+  Likes: {
+    type: Number,
+    required: true
+  },
+  NoOfComments: {
+    type: Number,
+    required: true
+  },
+  Comments: {
+    type: [{
+      UserId: {
+        type: String,
+        required: true
+      },
+      CommentContent: {
+        type: String,
+        required: true
+      }
+    }]
   }
 });
 
