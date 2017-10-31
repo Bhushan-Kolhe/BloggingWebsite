@@ -26,6 +26,11 @@ const PostSchema = mongoose.Schema({
     type: Number,
     required: true
   },
+  CreatedAt: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
   Comments: {
     type: [{
       UserId: {

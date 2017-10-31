@@ -10,7 +10,7 @@ html(lang='en')
     link(rel='stylesheet', href='css/styles.css')
   body.profile
     nav.navbar.navbar-expand.navbar-light.nav-dark
-      a#logo-light.navbar-brand(href='#') BLOG-IT
+      a#logo-light.navbar-brand(href='/') BLOG-IT
       div
         ul#my-nav-list.navbar-nav
           form.form-inline.my-lg-0.my-nav-item(method='POST',action='/search')
@@ -31,7 +31,7 @@ html(lang='en')
           .row
             if users
               each user, i in users
-                a(href="/users/profile/"+user._id)
+                a(href="/users/profile/"+user._id,style='width: 100%;')
                   .card.user-card.text-center.col-lg-3
                     img.card-img-top(src=user.ProfilePic, alt='')
                     .card-body
@@ -44,14 +44,14 @@ html(lang='en')
           .row
             if Posts
               each post, i in Posts
-                a(href="/users/post/"+post._id)
+                a(href="/users/post/"+post._id,style='width: 100%;')
                   .card.post-card.text-center.col-lg-5
                     img.card-img-top(src = 'users/' + post.UserId + '/images/' + post.Image, alt='')
                     .card-body
                       h4.card-title #{post.Title}
                       p.card-text #{post.Content}
                       p.card-text
-                        small.text-muted Last updated 3 mins ago
+                        small.text-muted Created at: #{moment(post.CreatedAt).format('LT Do MMM YY')}
             else
               h4 #{errPost}
     script(src='bower-components/jquery/dist/jquery.js')

@@ -31,7 +31,7 @@ html(lang='en')
       }
   body.profile
     nav.navbar.navbar-expand.navbar-light.nav-dark
-      a#logo-light.navbar-brand(href='#') BLOG-IT
+      a#logo-light.navbar-brand(href='/') BLOG-IT
       div
         ul#my-nav-list.navbar-nav
           form.form-inline.my-lg-0.my-nav-item(method='POST',action='/search')
@@ -71,15 +71,22 @@ html(lang='en')
         .row
           .col-lg-3
           .col-lg-2
-            if !isfollowing
-              a.btn.btn-md.btn-outline-primary#follow-btn(href="/users/follow/"+user._id) Follow
+            if CurrentUser
+              if CurrentUser._id != user.id
+                if !isfollowing
+                  a.btn.btn-md.btn-outline-primary#follow-btn(href="/users/follow/"+user._id) Follow
+                else
+                  a.btn.btn-md.btn-outline-danger#follow-btn(href="/users/unfollow/"+user._id) Unfollow
             else
-              a.btn.btn-md.btn-outline-danger#follow-btn(href="/users/unfollow/"+user._id) Unfollow
+              if !isfollowing
+                a.btn.btn-md.btn-outline-primary#follow-btn(href="/users/follow/"+user._id) Follow
+              else
+                a.btn.btn-md.btn-outline-danger#follow-btn(href="/users/unfollow/"+user._id) Unfollow
     section#profile-body
       .container
         .row
           .profile-right-column.col-lg-12
-            if !Posts
+            if !HavePosts
               h2 User dosen't have any Posts.
             .card-columns.my-post-cloumns
               if Posts
@@ -95,7 +102,7 @@ html(lang='en')
                   else
                     a(href="/users/post/"+post._id)
                       .card
-                        img.card-img-top(src='../users/'+post.UserId+'/images/'+post.Image, alt='Card image cap')
+                        img.card-img-top(src='../'+post.UserId+'/images/'+post.Image, alt='Card image cap')
                         .card-body
                           h4.card-title #{post.Title}
                           p.card-text #{post.Content}

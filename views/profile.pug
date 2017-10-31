@@ -26,12 +26,12 @@ html(lang='en')
         border: 6px solid #fff;
         border-radius: 50%;
         background: #464646 url(#{user.ProfilePic}) center no-repeat;
-        background-size: contain;
+        background-size: cover;
         margin-top: -110px;
       }
   body.profile
     nav.navbar.navbar-expand.navbar-light.nav-dark
-      a#logo-light.navbar-brand(href='#') BLOG-IT
+      a#logo-light.navbar-brand(href='/') BLOG-IT
       div
         ul#my-nav-list.navbar-nav
           form.form-inline.my-lg-0.my-nav-item(method='POST',action='/search')
@@ -102,25 +102,40 @@ html(lang='en')
                   input(name='Image', type='file')
                   |                 Add Image
                 input.btn.btn-outline-danger.new-post-btn(type='submit', value='Post')
-            .card.mb-3
-              img.card-img-top(src='images/pexels-photo-227675.jpeg')
-              .card-body
-                h4.card-title Post 1
-                p.card-text
-                  | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis ad, voluptas ea, asperiores nam omnis libero aut aspernatur similique unde dolorem. Maiores magnam aspernatur nesciunt, nobis error corrupti eligendi doloremque dolor facere quia perferendis laborum, officiis architecto pariatur modi sequi. Accusamus dolorum et cumque itaque dicta repellat provident debitis magni illo cupiditate magnam deleniti ex, tempora aperiam molestiae, voluptatem nemo minus ducimus odit ut, perspiciatis molestias enim hic placeat. Quod optio nulla dolorem enim. Natus incidunt consequatur rerum quae labore ullam obcaecati, praesentium, facilis vitae enim asperiores sequi deserunt possimus. Labore magnam eos sapiente, expedita voluptas veniam culpa doloribus. Hic.
-                p.card-text
-                  small.text-muted Last updated 3 mins ago
-              .card-footer
-                ul.card-footer-left
-                  li
-                    a(href='#') 00 Likes
-                  li
-                    a(href='#') 00 Views
-                  li
-                    a(href='#') 00 Comments
-                ul.card-footer-right
-                  li
-                    small.text-muted Last updated 3 mins ago
+            if Posts
+              each post, i in Posts
+                if post.Image == 'no-image'
+                  .card.mb-3
+                    a(href="/users/post/"+post._id)
+                      .card-body
+                        h4.card-title #{post.Title}
+                        p.card-text #{post.Content}
+                    .card-footer
+                      ul.card-footer-left
+                        li
+                          a(href='#') 00 Views
+                        li
+                          a(href='#') #{post.NoOfComments} Comments
+                      ul.card-footer-right
+                        li
+                          small.text-muted Created at: #{moment(post.CreatedAt).format('LT Do MMM YY')}
+                else
+                  .card.mb-3
+                    a(href="/users/post/"+post._id)
+                      img.card-img-top(src='../users/'+post.UserId+'/images/'+post.Image, alt='Card image cap')
+                      .card-body
+                        h4.card-title #{post.Title}
+                        p.card-text #{post.Content}
+                    .card-footer
+                      ul.card-footer-left
+                        li
+                          a(href='#') 00 Views
+                        li
+                          a(href='#') #{post.NoOfComments} Comments
+                      ul.card-footer-right
+                        li
+                          small.text-muted Last updated 3 mins ago
+                
     section
       #footer-reveal
     script(src='../bower-components/jquery/dist/jquery.js')

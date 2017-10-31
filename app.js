@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const config = require('./config/database');
 const passport = require('passport');
+const moment = require('moment');
 
 //Get Users Model
 let User = require('./models/Users');
@@ -20,6 +21,7 @@ let Feedback = require('./models/Feedback');
 //Connecting to db
 mongoose.connect(config.database);
 let db = mongoose.connection;
+exports.db = db;
 
 //Check connection
 db.once('open', function () {
@@ -94,7 +96,12 @@ app.use(bodyParser.json());
 
 //Home Route
 app.get('/', function (req, res) {
-  res.render('index');
+  if (req.user) {
+    res.redirect('/users/profile');
+  }
+  else{
+    res.render('index');
+  }
 });
 
 //Feedback route
@@ -237,6 +244,8 @@ app.post('/search', function (req, res) {
   });
 });
 
+//adding momentjs to locals
+app.locals.moment = require('moment');
 
 //Start Server on port 3000
 app.listen(3000, function () {

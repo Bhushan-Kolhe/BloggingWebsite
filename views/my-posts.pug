@@ -31,7 +31,7 @@ html(lang='en')
       }
   body.profile
     nav.navbar.navbar-expand.navbar-light.nav-dark
-      a#logo-light.navbar-brand(href='#') BLOG-IT
+      a#logo-light.navbar-brand(href='/') BLOG-IT
       div
         ul#my-nav-list.navbar-nav
           form.form-inline.my-lg-0.my-nav-item(method='POST',action='/search')
@@ -73,13 +73,13 @@ html(lang='en')
             h2 Bhushan Kolhe
             ul
               li
-                a.btn.btn-block(href='#') Profile
+                a.btn.btn-block(href='/users/profile') Profile
               li
                 a.btn.btn-block(href='/users/myPosts') My Posts
               li
                 a.btn.btn-block(href='#') Explore
               li
-                a.btn.btn-block(href='#') Logout
+                a.btn.btn-block(href='/users/logout') Logout
           .profile-right-column.col-lg-8
             if !Posts
               h2 You dont have any Posts.
@@ -93,7 +93,7 @@ html(lang='en')
                           h4.card-title #{post.Title}
                           p.card-text #{post.Content}
                           p.card-text
-                            small.text-muted Last updated 3 mins ago
+                            small.text-muted Created at: #{moment(post.CreatedAt).format('LT Do MMM YY')}
                   else
                     a(href="/users/post/"+post._id)
                       .card
@@ -102,7 +102,7 @@ html(lang='en')
                           h4.card-title #{post.Title}
                           p.card-text #{post.Content}
                           p.card-text
-                            small.text-muted Last updated 3 mins ago        
+                            small.text-muted Created at: #{moment(post.CreatedAt).format('LT Do MMM YY')}     
                     
     section
       #footer-reveal

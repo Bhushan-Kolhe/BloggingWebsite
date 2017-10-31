@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
+const config = require('../config/database');
+const moment = require('moment');
+var app = require('../app.js');
+var db = app.db;
 
 //Get Users Model
 let User = require('../models/Users');
@@ -18,6 +23,7 @@ router.use(fileUpload());
 router.get('/register', function (req, res) {
   res.render('signup');
 });
+
 
 //Register process
 router.post('/register', function (req, res) {
@@ -100,7 +106,6 @@ router.post('/New-Post', function (req, res, next) {
   let currentUser;
   let isFile = false;
   if (req.files.Image) {
-    console.log(req.files);
     File = req.files.Image;
     Image = File.name;
     isFile = true;
@@ -167,20 +172,31 @@ router.get('/post/:id', function (req, res) {
   Post.findById(id, function (err, post) {
     if (req.user) {
       var Comments = post.Comments;
-      var users;
+      var UserIds = [];
+      var users = [];
       var i = 0;
       while (i < post.NoOfComments) {
-        User.findById(Comments[i].UserId, function (err, user) {
-          users = user;
-          console.log('00');
-        });
+        UserIds.push(new mongoose.Types.ObjectId(Comments[i].UserId ));
         i++;
       }
-      console.log(users);
-      res.render('post', {
-        post: post,
-        CurrentUser: req.user
-      });
+      db.collection('users').find({ _id: { $in: UserIds } }).each(function (err, user) {
+            if (err) callback(err, list);
+            else {
+              if (user && user._id) {
+                users.push(user);
+              } else {                        // end of list
+                renderPostPageWithComments(users);
+              }
+            }
+        });
+      function renderPostPageWithComments(users) {
+        res.render('post', {
+          post: post,
+          Comments: Comments,
+          CurrentUser: req.user,
+          users: users,
+        });
+      }
     } else {
       res.render('post', {
         post: post,
@@ -190,37 +206,54 @@ router.get('/post/:id', function (req, res) {
   });
 });
 
+
 //single user route
 router.get('/profile/:id', function (req, res) {
   const id = req.params.id;
   User.findById(id, function (err, user) {
-    if (req.user) {
-      var following = req.user.MyFollowing;
-      var isfollowing = false;
-      var i = 0;
-      while (i < following.length ) {
-        if (following[i] == id) {
-          isfollowing = true;
+    Post.find({ UserId: id }, function (err, Posts) {
+      var havePosts = true;
+      if (err) {
+        console.log(err);
+      }
+      if (Posts == '') {
+        havePosts = false;
+      }
+      if (req.user) {
+        var following = req.user.MyFollowing;
+        var isfollowing = false;
+        var i = 0;
+        while (i < following.length ) {
+          if (following[i] == id) {
+            isfollowing = true;
+            res.render('userProfile', {
+              user: user,
+              CurrentUser: req.user,
+              isfollowing : isfollowing,
+              Posts: Posts,
+              HavePosts: havePosts
+            });
+            break;
+          }
+          i++;
+        }
+        if (i >= following.length ) {
           res.render('userProfile', {
             user: user,
-            isfollowing : isfollowing
+            CurrentUser: req.user,
+            isfollowing : isfollowing,
+            Posts: Posts,
+            HavePosts: havePosts
           });
-          break;
         }
-        i++;
-      }
-
-      if (i >= following.length ) {
+      } else {
         res.render('userProfile', {
           user: user,
-          isfollowing : isfollowing
+          Posts: Posts,
+          HavePosts: havePosts
         });
       }
-    } else {
-      res.render('userProfile', {
-        user: user
-      });
-    }
+    });
   });
 });
 
@@ -393,8 +426,44 @@ router.post('/login', function (req, res, next) {
   })(req, res, next);
 });
 
+//My-profile route
 router.get('/profile', function (req, res) {
-  res.render('profile');
+  User.findById(req.user._id, function (err, user) {
+    var myFollowing = user.MyFollowing;
+    var posts = [];
+    var i = 0;
+    if (err) {
+      console.log(err);
+    }
+    /*while (i < user.Following) {
+      Post.find({ UserId: myFollowing[i] }).sort('-CreatedAt').exec(function (err, post) {
+        console.log(post);
+     });
+      i++;
+    }*/
+    db.collection('posts').find({ UserId: { $in: myFollowing } }).each(function (err, post){
+        if (err) {
+          console.log(err);
+        }
+        if (err) callback(err, list);
+        else {
+          if (post && post._id) {
+            posts.push(post);
+          } else { // end of list
+            zxc(posts);
+          }
+        }
+      });
+      function zxc(posts){
+        posts.sort(function(a, b) {
+          return a.CreatedAt>b.CreatedAt ? -1 : a.CreatedAt<b.CreatedAt ? 1 : 0;
+        });
+        res.render('profile',{
+          Posts: posts
+        });
+      }
+  });
+  //res.render('profile');
 });
 
 //Logout
