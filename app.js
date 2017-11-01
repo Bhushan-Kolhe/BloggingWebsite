@@ -8,6 +8,7 @@ const session = require('express-session');
 const config = require('./config/database');
 const passport = require('passport');
 const moment = require('moment');
+const rn = require('random-number');
 
 //Get Users Model
 let User = require('./models/Users');
@@ -17,6 +18,9 @@ let Post = require('./models/Posts');
 
 //Get Feedback Model
 let Feedback = require('./models/Feedback');
+
+//Get Config Model
+let Config = require('./models/Config');
 
 //Connecting to db
 mongoose.connect(config.database);
@@ -93,6 +97,31 @@ app.get('*', function (req, res, next) {
 
 // parse application/json
 app.use(bodyParser.json());
+
+//Global config setup
+ConfigSetup();
+function ConfigSetup() {
+  const Posts = 0;
+  const Users = 0;
+  Config.findOne({ Title: 'Global-Configuration' }, function (err, c) {
+    if (err) return console.error(err);
+    if (c) {
+      return;
+    } else {
+      let newConfig = new Config({
+        Title: 'Global-Configuration',
+        Posts: Posts,
+        Users: Users
+      });
+      newConfig.save(function (err) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+      });
+    }
+  });
+}
 
 //Home Route
 app.get('/', function (req, res) {
@@ -241,6 +270,23 @@ app.post('/search', function (req, res) {
         errUser: 'No users Found',
       });
     }
+  });
+});
+
+//Suprise Me route
+app.get('/SupriseMe', function (req, res) {
+  var gen = rn.generator({
+      min:  0,
+      max:  0,
+      integer: true
+    });
+  Config.findOne({ Title: 'Global-Configuration' }, function (err, c) {
+    const Posts = c.Posts;
+    var PostNo = gen(1, Posts, true);
+    Post.findOne({ PostNo: PostNo }, function (err, post) {
+      if (err) return console.error(err);
+      res.redirect('/users/post/' + post._id);
+    });
   });
 });
 

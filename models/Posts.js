@@ -18,7 +18,7 @@ const PostSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  Likes: {
+  Views: {
     type: Number,
     required: true
   },
@@ -30,6 +30,10 @@ const PostSchema = mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now
+  },
+  PostNo: {
+    type: Number,
+    required: true
   },
   Comments: {
     type: [{

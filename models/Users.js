@@ -38,7 +38,15 @@ const UserSchema = mongoose.Schema({
     type: Number,
     required: true
   },
+  Views: {
+    type: Number,
+    required: true
+  },
   Following: {
+    type: Number,
+    required: true
+  },
+  UserNo: {
     type: Number,
     required: true
   },

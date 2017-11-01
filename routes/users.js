@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const config = require('../config/database');
 const moment = require('moment');
+const rn = require('random-number');
 var app = require('../app.js');
 var db = app.db;
 
@@ -15,6 +16,9 @@ let User = require('../models/Users');
 
 //Get Post model
 let Post = require('../models/Posts');
+
+//Get Config Model
+let Config = require('../models/Config');
 
 // default options
 router.use(fileUpload());
@@ -39,6 +43,8 @@ router.post('/register', function (req, res) {
   const Followers = 0;
   const Following = 0;
   const Posts = 0;
+  const Views = 0;
+  const UserNo = 0;
 
   User.findOne({ Email: Email }, function (err, user) {
     if (err) return console.error(err);
@@ -70,6 +76,8 @@ router.post('/register', function (req, res) {
           CoverPic: CoverPic,
           ProfilePic: ProfilePic,
           Followers: Followers,
+          UserNo: UserNo,
+          Views: Views,
           Following: Following,
           Posts: Posts
         });
@@ -79,13 +87,26 @@ router.post('/register', function (req, res) {
               console.log(err);
             }
             newUser.Password = hash;
-            newUser.save(function (err) {
-              if (err) {
-                console.log(err);
-                return;
-              } else {
-                res.redirect('/');
-              }
+            Config.findOne({ Title: 'Global-Configuration' }, function (err, c) {
+              var UserNo = c.Users;
+              UserNo += 1;
+              c.Users = UserNo;
+              if (err) return console.error(err);
+              c.save(function (err) {
+                if (err) {
+                  console.log(err);
+                  return;
+                }
+                newUser.UserNo = UserNo;
+                newUser.save(function (err) {
+                  if (err) {
+                    console.log(err);
+                    return;
+                  } else {
+                    res.redirect('/');
+                  }
+                });
+              });
             });
           });
         });
@@ -98,8 +119,9 @@ router.post('/register', function (req, res) {
 router.post('/New-Post', function (req, res, next) {
   const Title = req.body.Title;
   const Content = req.body.Content;
-  let Likes = 0;
+  let Views = 0;
   let NoOfComments = 0;
+  let PostNo = 0;
   let File;
   let Image;
   let newPost;
@@ -140,8 +162,9 @@ router.post('/New-Post', function (req, res, next) {
         Content: Content,
         Image: Image,
         UserId: req.user._id,
-        Likes: Likes,
-        NoOfComments: NoOfComments
+        Views: Views,
+        NoOfComments: NoOfComments,
+        PostNo: PostNo
       });
     } else {
       newPost = new Post({
@@ -149,19 +172,33 @@ router.post('/New-Post', function (req, res, next) {
         Content: Content,
         Image: 'no-image',
         UserId: req.user._id,
-        Likes: Likes,
-        NoOfComments: NoOfComments
+        Views: Views,
+        NoOfComments: NoOfComments,
+        PostNo: PostNo
       });
     }
     req.user.Posts = req.user.Posts + 1;
     req.user.save();
-    newPost.save(function (err) {
-      if(err){
-        console.log(err);
-        return;
-      } else {
-        res.redirect('/users/myPosts');
-      }
+    Config.findOne({ Title: 'Global-Configuration' }, function (err, c) {
+      var PostNo = c.Posts;
+      PostNo += 1;
+      c.Posts = PostNo;
+      if (err) return console.error(err);
+      c.save(function (err) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        newPost.PostNo = PostNo;
+        newPost.save(function (err) {
+          if(err){
+            console.log(err);
+            return;
+          } else {
+            res.redirect('/users/myPosts');
+          }
+        });
+      });
     });
   }
 });
@@ -171,10 +208,21 @@ router.get('/post/:id', function (req, res) {
   const id = req.params.id;
   Post.findById(id, function (err, post) {
     if (req.user) {
+      var Views = post.Views;
       var Comments = post.Comments;
       var UserIds = [];
       var users = [];
       var i = 0;
+      Views += 1;
+      post.Views = Views;
+      post.save();
+      User.findById(post.UserId, function (err, user) {
+        var Views = user.Views;
+        Views += 1;
+        user.Views = Views;
+        console.log('vepaf');
+        user.save();
+      });
       while (i < post.NoOfComments) {
         UserIds.push(new mongoose.Types.ObjectId(Comments[i].UserId ));
         i++;
