@@ -220,7 +220,6 @@ router.get('/post/:id', function (req, res) {
         var Views = user.Views;
         Views += 1;
         user.Views = Views;
-        console.log('vepaf');
         user.save();
       });
       while (i < post.NoOfComments) {
