@@ -126,6 +126,8 @@ function ConfigSetup() {
 //Home Route
 app.get('/', function (req, res) {
   if (req.user) {
+    res.header('Cache-Control', 'no-cache');
+    res.header('Expires', 'Fri, 31 Dec 1998 12:00:00 GMT');
     res.redirect('/users/profile');
   }
   else{
@@ -282,11 +284,15 @@ app.get('/SupriseMe', function (req, res) {
     });
   Config.findOne({ Title: 'Global-Configuration' }, function (err, c) {
     const Posts = c.Posts;
-    var PostNo = gen(1, Posts, true);
-    Post.findOne({ PostNo: PostNo }, function (err, post) {
-      if (err) return console.error(err);
-      res.redirect('/users/post/' + post._id);
-    });
+    if (Posts > 0) {
+      var PostNo = gen(1, Posts, true);
+      Post.findOne({ PostNo: PostNo }, function (err, post) {
+        if (err) return console.error(err);
+        res.redirect('/users/post/' + post._id);
+      });
+    } else {
+      res.redirect('/');
+    }
   });
 });
 
@@ -297,6 +303,16 @@ app.locals.moment = require('moment');
 app.listen(3000, function () {
   console.log('ok ');
 });
+
+//Authentication function
+function EA(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/');
+  }
+}
+
 
 //Route Files
 let users = require('./routes/users');

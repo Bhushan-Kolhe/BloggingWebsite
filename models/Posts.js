@@ -10,6 +10,10 @@ const PostSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  ShortContent: {
+    type: String,
+    required: true
+  },
   Image: {
     type: String,
     required: true

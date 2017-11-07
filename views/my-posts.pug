@@ -70,7 +70,8 @@ html(lang='en')
       .container
         .row
           .profile-left-column.col-lg-3
-            h2 Bhushan Kolhe
+            if user
+              h2 #{user.FirstName + ' ' + user.LastName}
             ul
               li
                 a.btn.btn-block(href='/users/profile') Profile
@@ -91,7 +92,7 @@ html(lang='en')
                       .card
                         .card-body
                           h4.card-title #{post.Title}
-                          p.card-text #{post.Content}
+                          p.card-text #{post.ShortContent}
                           p.card-text
                             small.text-muted Created at: #{moment(post.CreatedAt).format('LT Do MMM YY')}
                   else
@@ -100,7 +101,7 @@ html(lang='en')
                         img.card-img-top(src='../users/'+post.UserId+'/images/'+post.Image, alt='Card image cap')
                         .card-body
                           h4.card-title #{post.Title}
-                          p.card-text #{post.Content}
+                          p.card-text #{post.ShortContent}
                           p.card-text
                             small.text-muted Created at: #{moment(post.CreatedAt).format('LT Do MMM YY')}     
                     

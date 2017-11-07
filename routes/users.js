@@ -127,6 +127,7 @@ router.post('/New-Post', function (req, res, next) {
   let newPost;
   let currentUser;
   let isFile = false;
+  let ShortContent = ' ';
   if (req.files.Image) {
     File = req.files.Image;
     Image = File.name;
@@ -160,6 +161,7 @@ router.post('/New-Post', function (req, res, next) {
       newPost = new Post({
         Title: Title,
         Content: Content,
+        ShortContent: ShortContent,
         Image: Image,
         UserId: req.user._id,
         Views: Views,
@@ -170,6 +172,7 @@ router.post('/New-Post', function (req, res, next) {
       newPost = new Post({
         Title: Title,
         Content: Content,
+        ShortContent: ShortContent,
         Image: 'no-image',
         UserId: req.user._id,
         Views: Views,
@@ -181,6 +184,9 @@ router.post('/New-Post', function (req, res, next) {
     req.user.save();
     Config.findOne({ Title: 'Global-Configuration' }, function (err, c) {
       var PostNo = c.Posts;
+      var myContent = newPost.Content;
+      var count = 0;
+      var z = 0;
       PostNo += 1;
       c.Posts = PostNo;
       if (err) return console.error(err);
@@ -189,6 +195,17 @@ router.post('/New-Post', function (req, res, next) {
           console.log(err);
           return;
         }
+
+        while (count < 25) {
+          ShortContent += myContent[z];
+          if (myContent[z] == ' ') {
+            count += 1;
+          }
+
+          z++;
+        }
+
+        newPost.ShortContent = ShortContent;
         newPost.PostNo = PostNo;
         newPost.save(function (err) {
           if(err){
@@ -429,7 +446,7 @@ router.post('/New-Cover-Pic', function (req, res) {
 });
 
 //My-post route
-router.get('/myPosts', function (req, res) {
+router.get('/myPosts', EA, function (req, res) {
   Post.find({ UserId: req.user._id }, function (err, posts) {
     if (err) console.log(err);
     if (posts != '') {
@@ -474,44 +491,59 @@ router.post('/login', function (req, res, next) {
 });
 
 //My-profile route
-router.get('/profile', function (req, res) {
-  User.findById(req.user._id, function (err, user) {
-    var myFollowing = user.MyFollowing;
-    var posts = [];
-    var i = 0;
-    if (err) {
-      console.log(err);
-    }
-    /*while (i < user.Following) {
-      Post.find({ UserId: myFollowing[i] }).sort('-CreatedAt').exec(function (err, post) {
-        console.log(post);
-     });
-      i++;
-    }*/
-    db.collection('posts').find({ UserId: { $in: myFollowing } }).each(function (err, post){
-        if (err) {
-          console.log(err);
-        }
-        if (err) callback(err, list);
-        else {
-          if (post && post._id) {
-            posts.push(post);
-          } else { // end of list
-            zxc(posts);
-          }
-        }
-      });
-      function zxc(posts){
-        posts.sort(function(a, b) {
-          return a.CreatedAt>b.CreatedAt ? -1 : a.CreatedAt<b.CreatedAt ? 1 : 0;
-        });
-        res.render('profile',{
-          Posts: posts
-        });
+router.get('/profile', EA, function (req, res) {
+  if (req.user) {
+    res.header('Cache-Control', 'no-cache');
+    res.header('Expires', 'Fri, 31 Dec 1998 12:00:00 GMT');
+    User.findById(req.user._id, function (err, user) {
+      var myFollowing = user.MyFollowing;
+      var posts = [];
+      var i = 0;
+      if (err) {
+        console.log(err);
       }
-  });
+      /*while (i < user.Following) {
+        Post.find({ UserId: myFollowing[i] }).sort('-CreatedAt').exec(function (err, post) {
+          console.log(post);
+       });
+        i++;
+      }*/
+      db.collection('posts').find({ UserId: { $in: myFollowing } }).each(function (err, post){
+          if (err) {
+            console.log(err);
+          }
+          if (err) callback(err, list);
+          else {
+            if (post && post._id) {
+              posts.push(post);
+            } else { // end of list
+              zxc(posts);
+            }
+          }
+        });
+        function zxc(posts){
+          posts.sort(function(a, b) {
+            return a.CreatedAt>b.CreatedAt ? -1 : a.CreatedAt<b.CreatedAt ? 1 : 0;
+          });
+          res.render('profile',{
+            Posts: posts
+          });
+        }
+    });
   //res.render('profile');
+} else {
+  res.redirect('/');
+}
 });
+
+//Authentication function
+function EA(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/');
+  }
+}
 
 //Logout
 router.get('/logout', function (req, res){

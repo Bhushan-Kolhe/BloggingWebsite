@@ -49,7 +49,7 @@ html(lang='en')
                     img.card-img-top(src = 'users/' + post.UserId + '/images/' + post.Image, alt='')
                     .card-body
                       h4.card-title #{post.Title}
-                      p.card-text #{post.Content}
+                      p.card-text #{post.ShortContent}
                       p.card-text
                         small.text-muted Created at: #{moment(post.CreatedAt).format('LT Do MMM YY')}
             else
