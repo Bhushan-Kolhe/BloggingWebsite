@@ -1,6 +1,6 @@
 # How to Use
 
-Download and Install node.js from https://nodejs.org/en/
+Download and Install node.js from https://nodejs.org/en/ also install mongoDB
 
 To install the dependencies
 
